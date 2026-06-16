@@ -17,6 +17,12 @@ export default function HomePage() {
   const [selectedSource, setSelectedSource] =
   useState("All");
 
+  const [activeSources, setActiveSources] =
+  useState(0);
+
+const [primarySource, setPrimarySource] =
+  useState("N/A");
+
   useEffect(() => {
   setPage(1);
 }, [search]);
@@ -31,6 +37,11 @@ export default function HomePage() {
 
   useEffect(() => {
   loadArticles();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 }, [
   page,
   selectedCategory,
@@ -47,8 +58,16 @@ const loadArticles = async () => {
 );
 
   setArticles(response.articles);
-  setTotalPages(response.totalPages);
-  setTotalArticles(response.total);
+setTotalPages(response.totalPages);
+setTotalArticles(response.total);
+
+setActiveSources(
+  response.stats.activeSources
+);
+
+setPrimarySource(
+  response.stats.primarySource
+);
 };
 
 
@@ -91,7 +110,7 @@ return (
 
 
 
-const activeSources = 5;
+
 
 const sourceCounts: Record<string, number> = {};
 
@@ -100,7 +119,7 @@ articles.forEach((article) => {
     (sourceCounts[article.sourceName] || 0) + 1;
 });
 
-const primarySource = "PubMed";
+
 
 
 
@@ -184,7 +203,7 @@ return (
       marginBottom: "20px",
     }}
   >
-    <h3>Top Sources</h3>
+    <h3>Active Sources</h3>
 
 {Object.entries(sourceCounts)
   .sort((a, b) => b[1] - a[1])
@@ -195,23 +214,7 @@ return (
 ))}
   </div>
 
-  <div
-    style={{
-          position: "sticky",
-  top: "120px",
-      background: "white",
-      padding: "20px",
-      borderRadius: "16px",
-    }}
-  >
-    <h3>Trending Areas</h3>
-
-    <p>Cardiology</p>
-    <p>Oncology</p>
-    <p>Neurology</p>
-    <p>Diabetes</p>
-    <p>Mental Health</p>
-  </div>
+  
 </div>
 </div>
 </div>

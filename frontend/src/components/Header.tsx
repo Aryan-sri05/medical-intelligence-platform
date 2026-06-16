@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type Props = {
   selectedCategory: string;
@@ -19,6 +19,8 @@ export default function Header({
 }: Props) {
 
     const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+    const menuRef = useRef<HTMLDivElement>(null);
     const menus = {
   Research: ["PubMed", "MedRxiv", "BioRxiv"],
   "Clinical Trials": ["ClinicalTrials"],
@@ -26,6 +28,34 @@ export default function Header({
   "Drug Safety": ["CDC"],
   Guidelines: ["WHO"],
 };
+
+useEffect(() => {
+  const handleClickOutside = (
+    event: MouseEvent
+  ) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(
+        event.target as Node
+      )
+    ) {
+      setOpenMenu(null);
+    }
+  };
+
+  document.addEventListener(
+    "mousedown",
+    handleClickOutside
+  );
+
+  return () => {
+    document.removeEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+  };
+}, []);
+
   return (
     <header
       style={{
@@ -68,6 +98,7 @@ borderBottom: "1px solid #0f172a",
         </div>
 
 <div
+  ref={menuRef}
   style={{
     display: "flex",
     gap: "28px",
@@ -103,17 +134,19 @@ borderBottom: "1px solid #0f172a",
         style={{
           position: "relative",
         }}
-        onMouseEnter={() =>
-          setOpenMenu(category)
-        }
-        onMouseLeave={() =>
-          setOpenMenu(null)
-        }
+       onClick={() =>
+  setOpenMenu(
+    openMenu === category
+      ? null
+      : category
+  )
+}
       >
         <span
-          onClick={() =>
-            onCategoryChange(category)
-          }
+          onClick={() => {
+  onCategoryChange(category);
+  onSourceChange("All");
+}}
           style={{
             cursor: "pointer",
             color:
@@ -149,9 +182,10 @@ borderBottom: "1px solid #0f172a",
               <div
   key={source}
   onClick={() => {
-    onSourceChange(source);
-    setOpenMenu(null);
-  }}
+  onCategoryChange(category);
+  onSourceChange(source);
+  setOpenMenu(null);
+}}
   style={{
     padding: "12px 16px",
     cursor: "pointer",

@@ -45,13 +45,50 @@ router.get("/", async (req, res) => {
       where,
     });
 
-    res.json({
-      page,
-      limit,
-      total,
-      totalPages: Math.ceil(total / limit),
-      articles,
-    });
+    const allMatchingArticles =
+  await prisma.article.findMany({
+    where,
+    select: {
+      sourceName: true,
+    },
+  });
+
+const sourceCounts: Record<
+  string,
+  number
+> = {};
+
+allMatchingArticles.forEach(
+  (article) => {
+    sourceCounts[
+      article.sourceName
+    ] =
+      (sourceCounts[
+        article.sourceName
+      ] || 0) + 1;
+  }
+);
+
+const activeSources =
+  Object.keys(sourceCounts).length;
+
+const primarySource =
+  Object.entries(sourceCounts).sort(
+    (a, b) => b[1] - a[1]
+  )[0]?.[0] || "N/A";
+
+   res.json({
+  page,
+  limit,
+  total,
+  totalPages: Math.ceil(total / limit),
+  articles,
+
+  stats: {
+    activeSources,
+    primarySource,
+  },
+});
   } catch (error) {
     console.error(error);
 

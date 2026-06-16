@@ -21,7 +21,7 @@ export default function StatsBar({
     >
       <div className="stat-card">
         <h2>{totalArticles}</h2>
-        <p>Research Articles</p>
+        <p>Articles</p>
       </div>
 
       <div className="stat-card">
