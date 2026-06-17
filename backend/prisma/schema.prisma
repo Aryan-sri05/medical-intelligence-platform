@@ -25,4 +25,6 @@ model Article {
   publishedAt DateTime?
 
   createdAt   DateTime  @default(now())
+
+  @@map("article")
 }
