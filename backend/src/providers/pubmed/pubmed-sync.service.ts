@@ -15,10 +15,35 @@ export const syncPubMedArticles = async () => {
     }
   );
 
+  const getValidPubMedDate = (
+  pubdate: string | undefined,
+  fetchedAt: Date
+): Date => {
+  if (!pubdate) {
+    return fetchedAt;
+  }
+
+  const parsedDate = new Date(pubdate);
+
+  // Invalid date
+  if (isNaN(parsedDate.getTime())) {
+    return fetchedAt;
+  }
+
+  const now = new Date();
+
+  // Future publication date
+  if (parsedDate > now) {
+    return fetchedAt;
+  }
+
+  return parsedDate;
+};
+
   const ids = searchResponse.data.esearchresult.idlist.join(",");
 
   const detailResponse = await axios.get(
-    "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
+    "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
     {
       params: {
         db: "pubmed",
@@ -47,9 +72,10 @@ export const syncPubMedArticles = async () => {
       imageUrl: await getUnsplashImage(
   `${article.title} medicine`
 ),
-      publishedAt: article.pubdate
-        ? new Date(article.pubdate)
-        : null,
+      publishedAt: getValidPubMedDate(
+  article.pubdate,
+  new Date()
+),
     });
   }
 
