@@ -11,6 +11,8 @@ import { syncFiercePharma } from "../providers/fiercepharma/fiercepharma-sync.se
 import { syncEMA } from "../providers/ema/ema-sync.service";
 import { syncMHRA } from "../providers/mhra/mhra-sync.service";
 import { syncPharmaTimes } from "../providers/pharmatimes/pharmatimes-sync.service";
+import { syncCDSCO } from "../providers/cdsco/cdsco-sync.service";
+
 
 export const startAutoSync = () => {
   console.log("Auto Sync Scheduler Started");
@@ -31,6 +33,7 @@ export const startAutoSync = () => {
   syncEMA(),
   syncMHRA(),
   syncPharmaTimes(),
+  syncCDSCO(),
 ]);
 
     console.log("Startup sync complete");
@@ -53,6 +56,7 @@ export const startAutoSync = () => {
       await syncEMA();
       await syncMHRA();
       await syncPharmaTimes();
+      await syncCDSCO();
       console.log("Scheduled sync completed");
     } catch (error) {
       console.error("Auto Sync Failed:", error);
