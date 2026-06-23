@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "ts-node src/app.ts",
-  "start": "ts-node src/app.ts",
-  "postinstall": "prisma generate"
-},
+    "dev": "ts-node src/app.ts",
+    "start": "ts-node src/app.ts",
+    "postinstall": "prisma generate"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

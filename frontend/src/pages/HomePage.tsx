@@ -73,17 +73,29 @@ setPrimarySource(
 
 
   const sourceCategoryMap: Record<string, string> = {
+  // Research
   PubMed: "Research",
   MedRxiv: "Research",
   BioRxiv: "Research",
 
+  // Clinical Trials
   ClinicalTrials: "Clinical Trials",
 
+  // Regulatory
   FDA: "Regulatory",
+  EMA: "Regulatory",
+  CDSCO: "Regulatory",
 
+  // Drug Safety
   CDC: "Drug Safety",
+  MHRA: "Drug Safety",
 
+  // Guidelines
   WHO: "Guidelines",
+
+  // Industry / News
+  "Fierce Pharma": "Industry",
+  PharmaTimes: "Industry",
 };
 const filteredArticles = articles.filter((article) => {
   const matchesSearch =

@@ -6,6 +6,10 @@ import { syncFDA } from "../providers/fda/fda-sync.service";
 import { syncCDC } from "../providers/cdc/cdc-sync.service";
 import { syncMedRxiv } from "../providers/medrxiv/medrxiv-sync.service";
 import { syncBioRxiv } from "../providers/biorxiv/biorxiv-sync.service";
+import { syncFiercePharma } from "../providers/fiercepharma/fiercepharma-sync.service";
+import { syncEMA } from "../providers/ema/ema-sync.service";
+import { syncMHRA } from "../providers/mhra/mhra-sync.service";
+import { syncPharmaTimes } from "../providers/pharmatimes/pharmatimes-sync.service";
 
 const router = Router();
 
@@ -75,6 +79,46 @@ router.get(
   async (req, res) => {
     const result =
       await syncBioRxiv();
+
+    res.json(result);
+  }
+);
+
+router.get(
+  "/fiercepharma",
+  async (_, res) => {
+    const result =
+      await syncFiercePharma();
+
+    res.json(result);
+  }
+);
+
+router.get(
+  "/ema",
+  async (_, res) => {
+    const result =
+      await syncEMA();
+
+    res.json(result);
+  }
+);
+
+router.get(
+  "/mhra",
+  async (_, res) => {
+    const result =
+      await syncMHRA();
+
+    res.json(result);
+  }
+);
+
+router.get(
+  "/pharmatimes",
+  async (_, res) => {
+    const result =
+      await syncPharmaTimes();
 
     res.json(result);
   }

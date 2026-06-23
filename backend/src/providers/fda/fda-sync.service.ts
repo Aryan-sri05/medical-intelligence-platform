@@ -32,7 +32,7 @@ export async function syncFDA() {
   const exists =
   await prisma.article.findFirst({
     where: {
-      title,
+      articleUrl,
     },
   });
 
