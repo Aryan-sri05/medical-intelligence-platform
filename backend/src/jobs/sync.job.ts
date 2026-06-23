@@ -21,7 +21,7 @@ export const startAutoSync = () => {
   try {
     console.log("Initial startup sync");
 
-    await Promise.all([
+    await Promise.allSettled([
   syncPubMedArticles(),
   syncMedRxiv(),
   syncBioRxiv(),
