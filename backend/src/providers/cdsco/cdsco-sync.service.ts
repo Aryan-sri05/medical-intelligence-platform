@@ -20,9 +20,9 @@ export async function syncCDSCO() {
     if (exists) continue;
 
     const imageUrl =
-      await getUnsplashImage(
-        "india pharmaceutical regulation"
-      );
+  await getUnsplashImage(
+    `${article.title} healthcare`
+  );
 
     await prisma.article.create({
       data: {
