@@ -72,53 +72,8 @@ setPrimarySource(
 
 
 
-  const sourceCategoryMap: Record<string, string> = {
-  // Research
-  PubMed: "Research",
-  MedRxiv: "Research",
-  BioRxiv: "Research",
+  
 
-  // Clinical Trials
-  ClinicalTrials: "Clinical Trials",
-
-  // Regulatory
-  FDA: "Regulatory",
-  EMA: "Regulatory",
-  CDSCO: "Regulatory",
-
-  // Drug Safety
-  CDC: "Drug Safety",
-  MHRA: "Drug Safety",
-
-  // Guidelines
-  WHO: "Guidelines",
-
-  // Industry / News
-  "Fierce Pharma": "Industry",
-  PharmaTimes: "Industry",
-};
-const filteredArticles = articles.filter((article) => {
-  const matchesSearch =
-    article.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-  const articleCategory =
-    sourceCategoryMap[
-      article.sourceName
-    ] || "Research";
-
-  const matchesCategory =
-    selectedCategory === "All" ||
-    articleCategory === selectedCategory;
-
-   
-
-return (
-  matchesSearch &&
-  matchesCategory
-);
-});
 
 
 
@@ -186,10 +141,10 @@ return (
       <div>
   <h2>Latest Medical News</h2>
 
-  {filteredArticles.length === 0 ? (
+  {articles.length === 0 ? (
   <p>No articles found.</p>
 ) : (
-  filteredArticles.map((article) => (
+  articles.map((article) => (
     <ArticleCard
       key={article.id}
       title={article.title}
