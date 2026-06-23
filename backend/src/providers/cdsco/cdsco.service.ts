@@ -49,5 +49,16 @@ export async function fetchCDSCOArticles() {
     });
   }
 
-  return articles;
+  const uniqueArticles = Array.from(
+  new Map(
+    articles.map((article) => [
+      article.articleUrl,
+      article,
+    ])
+  ).values()
+);
+
+return uniqueArticles;
+
+
 }

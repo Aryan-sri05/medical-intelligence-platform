@@ -9,43 +9,31 @@ export async function syncCDSCO() {
   let inserted = 0;
 
   for (const article of articles) {
-    const exists =
-      await prisma.article.findFirst({
-        where: {
-          articleUrl:
-            article.articleUrl,
-        },
-      });
-
-    if (exists) continue;
-
     const imageUrl =
   await getUnsplashImage(
     `${article.title} healthcare`
   );
 
-    await prisma.article.create({
-      data: {
-        title: article.title,
-        summary: article.category,
-        sourceName: "CDSCO",
-        sourceUrl:
-          "https://cdsco.gov.in",
-        articleUrl:
-          article.articleUrl,
-        category:
-          article.category,
-        publishedAt:
-          article.publishedAt
-            ? new Date(
-                article.publishedAt
-              )
-            : null,
-        imageUrl,
-      },
-    });
+await prisma.article.upsert({
+  where: {
+    articleUrl: article.articleUrl,
+  },
+  update: {},
+  create: {
+    title: article.title,
+    summary: article.category,
+    sourceName: "CDSCO",
+    sourceUrl: "https://cdsco.gov.in",
+    articleUrl: article.articleUrl,
+    category: article.category,
+    publishedAt: article.publishedAt
+      ? new Date(article.publishedAt)
+      : null,
+    imageUrl,
+  },
+});
 
-    inserted++;
+inserted++;
   }
 
   return {
