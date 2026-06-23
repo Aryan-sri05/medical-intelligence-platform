@@ -22,11 +22,35 @@ export default function Header({
 
     const menuRef = useRef<HTMLDivElement>(null);
     const menus = {
-  Research: ["PubMed", "MedRxiv", "BioRxiv"],
-  "Clinical Trials": ["ClinicalTrials"],
-  Regulatory: ["FDA"],
-  "Drug Safety": ["CDC"],
-  Guidelines: ["WHO"],
+  Research: [
+    "PubMed",
+    "MedRxiv",
+    "BioRxiv",
+  ],
+
+  "Clinical Trials": [
+    "ClinicalTrials",
+  ],
+
+  Regulatory: [
+    "FDA",
+    "EMA",
+    "CDSCO",
+  ],
+
+  "Drug Safety": [
+    "CDC",
+    "MHRA",
+  ],
+
+  Guidelines: [
+    "WHO",
+  ],
+
+  Industry: [
+    "Fierce Pharma",
+    "PharmaTimes",
+  ],
 };
 
 useEffect(() => {
