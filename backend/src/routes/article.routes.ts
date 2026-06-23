@@ -15,8 +15,12 @@ router.get("/", async (req, res) => {
     const skip = (page - 1) * limit;
 
     const where: any = {};
-    if (category) {
-  where.category = category;
+
+if (category && category !== "All") {
+  where.category =
+    category === "Industry"
+      ? "Industry Update"
+      : category;
 }
 
     if (search) {
