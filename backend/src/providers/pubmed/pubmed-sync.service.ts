@@ -43,7 +43,7 @@ export const syncPubMedArticles = async () => {
   const ids = searchResponse.data.esearchresult.idlist.join(",");
 
   const detailResponse = await axios.get(
-    "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
+    "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
     {
       params: {
         db: "pubmed",
@@ -54,6 +54,10 @@ export const syncPubMedArticles = async () => {
   );
 
   const result = detailResponse.data.result;
+
+  if (!result) {
+  throw new Error("PubMed returned no result.");
+}
 
   const articles = [];
 

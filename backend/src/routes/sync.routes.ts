@@ -125,15 +125,19 @@ router.get(
   }
 );
 
-router.get(
-  "/cdsco",
-  async (_, res) => {
-    const result =
-      await syncCDSCO();
+router.get("/cdsco", async (_, res) => {
+  try {
+    const result = await syncCDSCO();
 
     res.json(result);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Sync Failed",
+    });
   }
-);
+});
 
 
 

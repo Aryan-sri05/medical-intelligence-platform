@@ -45,18 +45,28 @@ export const startAutoSync = () => {
     try {
       console.log("Starting scheduled sync...");
 
-      await syncPubMedArticles();
-      await syncMedRxiv();
-      await syncBioRxiv();
-      await syncFDA();
-      await syncWHOArticles();
-      await syncCDC();
-      await syncClinicalTrials();
-      await syncFiercePharma();
-      await syncEMA();
-      await syncMHRA();
-      await syncPharmaTimes();
-      await syncCDSCO();
+     const jobs = [
+  syncPubMedArticles,
+  syncMedRxiv,
+  syncBioRxiv,
+  syncFDA,
+  syncWHOArticles,
+  syncCDC,
+  syncClinicalTrials,
+  syncFiercePharma,
+  syncEMA,
+  syncMHRA,
+  syncPharmaTimes,
+  syncCDSCO,
+];
+
+for (const job of jobs) {
+  try {
+    await job();
+  } catch (error) {
+    console.error(`${job.name} failed`, error);
+  }
+}
       console.log("Scheduled sync completed");
     } catch (error) {
       console.error("Auto Sync Failed:", error);
